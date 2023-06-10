@@ -18,12 +18,17 @@ check_storage() {
 }
 
 check_wins() {
-  LASTHOUR_WIN=$(journalctl -u otnode --since "1 hour ago" | grep -E "submitCommitCommand.*epoch: 0" | wc -l)
-  LASTHOUR_ATTEMPTS=$(journalctl -u otnode --since "1 hour ago" | grep "Service agreement bid:" | wc -l)
-#  NETWORK_PUBS=$()
-  telegram_message "$HOSTNAME won $LASTHOUR_WIN/$LASTHOUR_ATTEMPTS attempts last hour with $NETWORK_PUBS hourly network pubs."
-
+  WIN=$(journalctl -u otnode --since "1 hour ago" | grep -E "submitCommitCommand.*epoch: 0" | wc -l)
+  ATTEMPTS=$(journalctl -u otnode --since "1 hour ago" | grep "Service agreement bid:" | wc -l)
+  CHECK_STUCK=$(journalctl -u otnode --since "3 hour ago" | grep -E "submitCommitCommand.*epoch: 0" | wc -l)
+  NETWORK_PUBS=$()
+  telegram_message "$HOSTNAME won $WIN/$ATTEMPTS attempts with $NETWORK_PUBS total hourly pubs."
+  if [[ $CHECK_STUCK -eq 0 && $NETWORK_PUBS -gt 50 ]]; then
+    systemctl restart otnode
+    telegram_message "$HOSTNAME has not won any pubs in the last 3 hours with pubs on the network. Otnode restarted."
+  fi
 }
+
 
 check_error() {
   logs=$(journalctl -u otnode --since '1 hour ago' | grep 'ERROR')
@@ -40,7 +45,7 @@ telegram_message() {
 check_update() {
   wget -q -O /etc/cron.hourly/node-hourly-monitor.sh https://raw.githubusercontent.com/Valcyclovir/publictestnet/main/node-monitor-hourly.sh
   chmod +x /etc/cron.hourly/node-hourly-monitor.sh
-  echo -e "CHAT_ID="${telegram_id}" \nBOT_ID="${new_bot_id}" \nNODE_ID="${network_id}"" > /root/env
+  echo -e "CHAT_ID="${telegram_id}" \nBOT_ID="${new_bot_id}" \nNODE_ID="${network_id}"" > /root/.env
 }
 
 check_status
