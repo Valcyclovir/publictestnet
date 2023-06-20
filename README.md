@@ -21,6 +21,7 @@ chmod +x /etc/cron.hourly/node-monitor-hourly
 To get your telegram_id, type /getid to [@myidbot](https://t.me/myidbot)
 
 To get your bot_id, follow the instructions on [@botfather](https://t.me/botfather)
+
 Replace <telegram_id> and <bot_id> with their respective values
 ```
 echo -e "CHAT_ID="<telegram_id>" \nBOT_ID="<bot_id>"" > /root/.env
