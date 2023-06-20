@@ -12,11 +12,11 @@ node-monitor-hourly.sh helps monitor your node hourly:
 ## Installation
 Log in to your node and run the following
 ```
-wget -q -O /etc/cron.hourly/node-hourly-monitor.sh https://raw.githubusercontent.com/Valcyclovir/publictestnet/main/node-monitor-hourly.sh 
+wget -q -O /etc/cron.hourly/nodehourlymonitor https://raw.githubusercontent.com/Valcyclovir/publictestnet/main/nodemonitorhourly 
 ```
 Set permissions
 ```
-chmod +x /etc/cron.hourly/node-hourly-monitor.sh
+chmod +x /etc/cron.hourly/nodehourlymonitor
 ```
 To get your telegram_id, type /getid to [@myidbot](https://t.me/myidbot)
 
@@ -27,6 +27,6 @@ echo -e "CHAT_ID="<telegram_id>" \nBOT_ID="<bot_id>"" > /root/.env
 ```
 To test your script at any time, run the following
 ```
-bash /etc/cron.hourly/node-hourly-monitor.sh
+bash /etc/cron.hourly/nodehourlymonitor
 ```
 Your script will run hourly in the background automatically.
