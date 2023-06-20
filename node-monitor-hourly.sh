@@ -23,12 +23,12 @@ check_wins() {
   WIN=$(journalctl -u otnode --since "1 hour ago" | grep -E "submitCommitCommand.*epoch: 0" | wc -l)
   ATTEMPTS=$(journalctl -u otnode --since "1 hour ago" | grep "Service agreement bid:" | wc -l)
   CHECK_STUCK=$(journalctl -u otnode --since "3 hour ago" | grep -E "submitCommitCommand.*epoch: 0" | wc -l)
-  NETWORK_PUBS=$()
-  messages+=" $HOSTNAME won $WIN/$ATTEMPTS attempts with $NETWORK_PUBS total hourly pubs."
-  if [[ $CHECK_STUCK -eq 0 && $NETWORK_PUBS -gt 50 ]]; then
-    systemctl restart otnode
-    messages+=" $HOSTNAME has not won any pubs in the last 3 hours with pubs on the network. Otnode restarted."
-  fi
+##  NETWORK_PUBS=$()
+  messages+=" $HOSTNAME won $WIN/$ATTEMPTS attempts"
+##  if [[ $CHECK_STUCK -eq 0 && $NETWORK_PUBS -gt 50 ]]; then
+##    systemctl restart otnode
+##    messages+=" $HOSTNAME has not won any pubs in the last 3 hours with pubs on the network. Otnode restarted."
+##  fi
 }
 
 check_error() {
