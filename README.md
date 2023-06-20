@@ -10,7 +10,7 @@ node-monitor-hourly.sh helps monitor your node hourly:
 - sends notifications for the above to your TG bot
 
 ## Installation
-Insert the script into your node server /etc/cron.hourly directory
+Log in to your node and run the following
 ```
 wget -q -O /etc/cron.hourly/node-hourly-monitor.sh https://raw.githubusercontent.com/Valcyclovir/publictestnet/main/node-monitor-hourly.sh 
 ```
@@ -33,3 +33,4 @@ To test your script at any time, run the following
 ```
 ./etc/cron.hourly/node-hourly-monitor.sh
 ```
+Your script will run hourly in the background automatically.
