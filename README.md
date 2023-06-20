@@ -27,6 +27,6 @@ echo -e "CHAT_ID="<telegram_id>" \nBOT_ID="<bot_id>"" > /root/.env
 ```
 To test your script at any time, run the following
 ```
-./etc/cron.hourly/node-hourly-monitor.sh
+bash /etc/cron.hourly/node-hourly-monitor.sh
 ```
 Your script will run hourly in the background automatically.
