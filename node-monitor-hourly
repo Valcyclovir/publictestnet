@@ -3,6 +3,7 @@
 source /root/.env
 
 messages=""
+hourlypubs=""
 
 check_status() {
   status=$(systemctl is-active otnode)
@@ -24,7 +25,7 @@ check_wins() {
   ATTEMPTS=$(journalctl -u otnode --since "1 hour ago" | grep "Service agreement bid:" | wc -l)
   CHECK_STUCK=$(journalctl -u otnode --since "3 hour ago" | grep -E "submitCommitCommand.*epoch: 0" | wc -l)
 ##  NETWORK_PUBS=$()
-  messages+=" $HOSTNAME won $WIN/$ATTEMPTS attempts"
+  hourlypubs+=" $HOSTNAME won $WIN/$ATTEMPTS attempts"
 ##  if [[ $CHECK_STUCK -eq 0 && $NETWORK_PUBS -gt 50 ]]; then
 ##    systemctl restart otnode
 ##    messages+=" $HOSTNAME has not won any pubs in the last 3 hours with pubs on the network. Otnode restarted."
@@ -49,3 +50,4 @@ check_error
 check_wins
 
 telegram_message "$messages"
+telegram_message "$hourlypubs"
