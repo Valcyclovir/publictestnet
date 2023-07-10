@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /root/.env
+source /etc/othub/config
 
 messages=""
 hourlypubs=""
@@ -21,10 +21,15 @@ check_storage() {
 }
 
 check_wins() {
-  WIN=$(journalctl -u otnode --since "1 hour ago" | grep -E "submitCommitCommand.*epoch: 0" | wc -l)
-  ATTEMPTS=$(journalctl -u otnode --since "1 hour ago" | grep "Service agreement bid:" | wc -l)
-  hourlypubs+=" $HOSTNAME won $WIN/$ATTEMPTS attempts"
+  NODE_STATS=$(curl -s "https://api.othub.io/otp/views/v_nodes_stats_last?api_key=$API_KEY&nodeId=$NODE_ID")
+  ATTEMPTS=$(echo "$NODE_STATS" | jq -r '.[0].pubsCommited')
+  WIN=$(echo "$NODE_STATS" | jq -r '.[0].pubsCommited1stEpochOnly')
+  
+  NETWORKPUBS=$(curl -s "https://api.othub.io/otp/views/v_pubs_stats_last?api_key=$API_KEY" | jq -r '.[0].totalPubs')
+  
+  hourlypubs+=" $HOSTNAME won $WIN/$ATTEMPTS attempts with $NETWORKPUBS network pubs"
 }
+
 
 check_error() {
   logs=$(journalctl -u otnode --since '1 hour ago' | grep 'ERROR')
