@@ -25,7 +25,7 @@ check_wins() {
   ATTEMPTS=$(echo "$NODE_STATS" | jq -r '.[0].pubsCommited')
   WIN=$(echo "$NODE_STATS" | jq -r '.[0].pubsCommited1stEpochOnly')
   
-  NETWORKPUBS=$(curl -s "https://api.othub.io/otp/views/v_pubs_stats_last?api_key=$API_KEY" | jq -r '.[0].totalPubs')
+  NETWORKPUBS=$(curl -s "https://api.othub.io/otp/views/v_pubs_stats_last?api_key=$API_KEY&timeframe=hourly" | jq -r '.[0].totalPubs')
   
   hourlypubs+=" $HOSTNAME won $WIN/$ATTEMPTS attempts with $NETWORKPUBS network pubs"
 }
